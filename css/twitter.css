@@ -1,0 +1,3 @@
+div[aria-label="Trending"] > div > div:has(div[aria-label="Timeline: Trending now"]) {
+  display: none !important;
+}

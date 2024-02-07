@@ -18,6 +18,11 @@
       "matches": ["*://*.twitter.com/*"],
       "css": ["css/twitter.css"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["*://discord.com/*"],
+      "css": ["css/discord.css"],
+      "run_at": "document_start"
     }
   ]
 }

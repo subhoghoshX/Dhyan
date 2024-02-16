@@ -19,6 +19,9 @@ ytd-watch-flexy #player-full-bleed-container div.html5-endscreen {
 ytd-watch-flexy #secondary #related {
   display: none !important;
 }
+ytd-watch-flexy #primary #related {
+  display: none !important;
+}
 /* Hide the whole secondary column when there's no playlist */
 /* ytd-watch-flexy #secondary:has(ytd-playlist-panel-renderer[hidden=""]) { */
 /*   display: none !important; */

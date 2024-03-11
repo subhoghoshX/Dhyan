@@ -24,5 +24,8 @@
       "css": ["css/discord.css"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup/toggle.html"
+  }
 }

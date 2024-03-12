@@ -3,27 +3,16 @@
   "name": "Dhyan",
   "version": "0.0.1",
   "description": "Zen mode for the Web.",
-  "content_scripts": [
-    {
-      "matches": ["*://*.youtube.com/*"],
-      "css": ["css/youtube.css"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": ["*://*.google.com/"],
-      "css": ["css/google.css"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": ["*://*.twitter.com/*"],
-      "css": ["css/twitter.css"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": ["*://discord.com/*"],
-      "css": ["css/discord.css"],
-      "run_at": "document_start"
-    }
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["webNavigation", "scripting"],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.google.com/",
+    "*://*.twitter.com/*",
+    "*://discord.com/*"
   ],
   "action": {
     "default_popup": "popup/toggle.html"

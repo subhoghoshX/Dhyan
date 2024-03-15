@@ -543,3 +543,11 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+
+.w-64 {
+  width: 16rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
+}

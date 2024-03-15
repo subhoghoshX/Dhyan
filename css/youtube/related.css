@@ -1,0 +1,7 @@
+/* Hide related videos recommendations in video watching page */
+ytd-watch-flexy #secondary #related {
+  display: none !important;
+}
+ytd-watch-flexy #primary #related {
+  display: none !important;
+}

@@ -1,0 +1,7 @@
+/* Hide recommendations grid at video end */
+ytd-watch-flexy #primary #player div.html5-endscreen {
+  display: none !important;
+}
+ytd-watch-flexy #player-full-bleed-container div.html5-endscreen {
+  display: none !important;
+}

@@ -7,7 +7,7 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "permissions": ["webNavigation", "scripting"],
+  "permissions": ["webNavigation", "scripting", "activeTab", "storage"],
   "host_permissions": [
     "*://*.youtube.com/*",
     "*://*.google.com/",

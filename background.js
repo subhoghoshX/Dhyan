@@ -1,28 +1,76 @@
-import { youtube, google, twitter, discord } from "./css-to-apply.js";
+import * as siteInfos from "./css-to-apply.js";
+import { getSiteName, insertCSS, removeCSS } from "./utils.js";
 
 const browser = chrome;
 
-browser.webNavigation.onCommitted.addListener((details) => {
-  const host = new URL(details.url).host;
-  const tabId = details.tabId;
+browser.webNavigation.onCommitted.addListener(async (details) => {
+  const { url, tabId } = details;
+  const siteName = getSiteName(new URL(url).host);
+  if(siteName === undefined) return;
 
-  function applyCSS(site) {
-    for (const section in site){
-      browser.scripting.insertCSS({
-        css: site[section],
-        target: {
-          tabId,
+  const siteInfo = siteInfos[siteName];
+
+  const sessionStorage = await browser.storage.session.get();
+
+  if(sessionStorage.userPreference === undefined) {
+    const cssFilePaths = [];
+    for(const sectionName in siteInfo.sections) {
+      const cssFilePath = siteInfo.sections[sectionName];
+      cssFilePaths.push(cssFilePath);
+    }
+    await insertCSS(cssFilePaths, tabId);
+
+    // set the default userPreference
+    const userPreference = {};
+    for(const siteName in siteInfos) {
+      userPreference[siteName] = {};
+      for(const sectionName in siteInfos[siteName].sections) {
+        userPreference[siteName][sectionName] = true;
+      }
+    }
+    await browser.storage.session.set({ userPreference });
+  } else {
+    const cssFilePaths = [];
+    for(const sectionName in siteInfo.sections) {
+      if(sessionStorage.userPreference[siteName][sectionName] === true) {
+        const cssFilePath = siteInfo.sections[sectionName];
+        cssFilePaths.push(cssFilePath)
+      }
+    }
+    await insertCSS(cssFilePaths, tabId);
+  }
+});
+
+browser.runtime.onMessage.addListener(async (message) => {
+  if(message.type === 'get_toggle_info') {
+    const sessionStorage = await browser.storage.session.get();
+    browser.runtime.sendMessage({
+      toggleStatuses: sessionStorage.userPreference[message.siteName],
+      sections: Object.keys(siteInfos[message.siteName].sections).map((item) => ({id: item}))
+    });
+  } else {
+    const { hide, siteName, sectionToHide, tabId } = message;
+    const cssFilePath = siteInfos[siteName].sections[sectionToHide];
+    const sessionStorage = await browser.storage.session.get();
+    const toggleStatues = sessionStorage.userPreference[siteName];
+    const isApplied = toggleStatues[sectionToHide];
+
+    if (isApplied === false & hide === true) {
+      insertCSS([cssFilePath], tabId);
+      await browser.storage.session.set({
+        userPreference: {
+          ...sessionStorage.userPreference,
+          [siteName]: {...toggleStatues, [sectionToHide]: true}
+        }
+      });
+    } else if (hide === false) {
+      removeCSS([cssFilePath], tabId);
+      await browser.storage.session.set({
+        userPreference: {
+          ...sessionStorage.userPreference,
+          [siteName]: {...toggleStatues, [sectionToHide]: false}
         }
       });
     }
   }
-
-  if(host.includes("youtube.com"))
-      applyCSS(youtube);
-  else if(host.includes("google.com"))
-      applyCSS(google);
-  else if(host.includes("twitter.com"))
-      applyCSS(twitter);
-  else if(host.includes("discord.com"))
-      applyCSS(discord);
-})
+});

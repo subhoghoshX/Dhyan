@@ -1,0 +1,3 @@
+button[aria-label="Start an Activity"] {
+  display: none !important;
+}

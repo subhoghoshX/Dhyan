@@ -1,0 +1,4 @@
+/* Hide home page crap */
+ytd-browse[page-subtype="home"] {
+  display: none !important;
+}

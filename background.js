@@ -46,7 +46,7 @@ browser.runtime.onMessage.addListener(async (message) => {
     const sessionStorage = await browser.storage.session.get();
     const sectionsObj = siteInfos[message.siteName]?.sections;
     browser.runtime.sendMessage({
-      toggleStatuses: sessionStorage.userPreference[message.siteName],
+      toggleStatuses: sessionStorage.userPreference?.[message.siteName],
       sections: sectionsObj ? Object.keys(sectionsObj).map((item) => ({id: item})) : [],
     });
   } else {

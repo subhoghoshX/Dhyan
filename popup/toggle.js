@@ -20,6 +20,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       `
       return;
     }
+
+    // TODO: this is needed only when the userPreference is not set. A page load (any page) is
+    // needed to set it. Maybe set the usePreference when extension is installed or reloaded.
+    if(!toggleStatuses) {
+      togglesContainer.innerHTML = `
+        <section class="flex flex-col items-center">
+          <svg class="w-32 h-32 fill-zinc-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M176 80L39.36 247h77.74L176 144l32 48v-48l-32-64zm160 0l-32 64v48l32-48 58.9 103h77.7L336 80zM25 265v174h194.2l36.8-55.2 36.8 55.2H487V265H25zm23 23h176v64l-32 64H48V288zm240 0h176v128H320l-32-64v-64z"/></svg>
+          <p class="text-zinc-300">Reload the page.</p>
+        </section>
+      `
+      return;
+    }
+
     sections.forEach(section => {
       togglesContainer.appendChild(createToggles({ id: section.id, text: section.id, isChecked: toggleStatuses[section.id] })); // TODO: text key
     })

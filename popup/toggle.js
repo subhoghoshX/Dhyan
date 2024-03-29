@@ -32,23 +32,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
     });
 
-    if(toggleInfo.isChecked) {
-      labelElem.innerHTML = `
-        <input type="checkbox" checked class="[&:checked+div]:bg-indigo-600 [&:checked+div>span]:bg-white [&:checked+div>span]:inset-[3px_3px_auto_23px] [&:focus-visible+div]:outline sr-only" />
-        <div class="w-10 h-5 rounded-full relative outline-offset-2 outline-indigo-600 outline-2 bg-gray-200">
-          <span class="w-3.5 h-3.5 bg-white inline-block rounded-full absolute inset-[3px_23px_auto_3px] transition-[inset] ease-in-out"></span>
-        </div>
-        ${toggleInfo.text}
-      `
-    } else {
-      labelElem.innerHTML = `
-        <input type="checkbox" class="[&:checked+div]:bg-indigo-600 [&:checked+div>span]:bg-white [&:checked+div>span]:inset-[3px_3px_auto_23px] [&:focus-visible+div]:outline sr-only" />
-        <div class="w-10 h-5 rounded-full relative outline-offset-2 outline-indigo-600 outline-2 bg-gray-200">
-          <span class="w-3.5 h-3.5 bg-white inline-block rounded-full absolute inset-[3px_23px_auto_3px] transition-[inset] ease-in-out"></span>
-        </div>
-        ${toggleInfo.text}
-      `
-    }
+    labelElem.innerHTML = `
+      <input
+        type="checkbox"
+        class="[&:checked+div]:bg-indigo-600 [&:checked+div>span]:bg-white [&:checked+div>span]:inset-[3px_3px_auto_23px] [&:focus-visible+div]:outline sr-only"
+        ${toggleInfo.isChecked ? "checked" : ""}
+      />
+      <div class="w-10 h-5 rounded-full relative outline-offset-2 outline-indigo-600 outline-2 bg-gray-200">
+        <span class="w-3.5 h-3.5 bg-white inline-block rounded-full absolute inset-[3px_23px_auto_3px] transition-[inset] ease-in-out"></span>
+      </div>
+      ${toggleInfo.text}
+    `
     return labelElem;
   }
 });

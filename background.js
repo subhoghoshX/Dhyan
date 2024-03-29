@@ -44,9 +44,10 @@ browser.webNavigation.onCommitted.addListener(async (details) => {
 browser.runtime.onMessage.addListener(async (message) => {
   if(message.type === 'get_toggle_info') {
     const sessionStorage = await browser.storage.session.get();
+    const sectionsObj = siteInfos[message.siteName]?.sections;
     browser.runtime.sendMessage({
       toggleStatuses: sessionStorage.userPreference[message.siteName],
-      sections: Object.keys(siteInfos[message.siteName].sections).map((item) => ({id: item}))
+      sections: sectionsObj ? Object.keys(sectionsObj).map((item) => ({id: item})) : [],
     });
   } else {
     const { hide, siteName, sectionToHide, tabId } = message;

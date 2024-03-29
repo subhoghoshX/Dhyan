@@ -15,7 +15,7 @@ browser.webNavigation.onCommitted.addListener(async (details) => {
   if(sessionStorage.userPreference === undefined) {
     const cssFilePaths = [];
     for(const sectionName in siteInfo.sections) {
-      const cssFilePath = siteInfo.sections[sectionName];
+      const cssFilePath = siteInfo.sections[sectionName].cssFilePath;
       cssFilePaths.push(cssFilePath);
     }
     await insertCSS(cssFilePaths, tabId);
@@ -33,7 +33,7 @@ browser.webNavigation.onCommitted.addListener(async (details) => {
     const cssFilePaths = [];
     for(const sectionName in siteInfo.sections) {
       if(sessionStorage.userPreference[siteName][sectionName] === true) {
-        const cssFilePath = siteInfo.sections[sectionName];
+        const cssFilePath = siteInfo.sections[sectionName].cssFilePath;
         cssFilePaths.push(cssFilePath)
       }
     }
@@ -47,11 +47,11 @@ browser.runtime.onMessage.addListener(async (message) => {
     const sectionsObj = siteInfos[message.siteName]?.sections;
     browser.runtime.sendMessage({
       toggleStatuses: sessionStorage.userPreference?.[message.siteName],
-      sections: sectionsObj ? Object.keys(sectionsObj).map((item) => ({id: item})) : [],
+      sections: sectionsObj ? Object.keys(sectionsObj).map((item) => ({id: item, label: sectionsObj[item].label})) : [],
     });
   } else {
     const { hide, siteName, sectionToHide, tabId } = message;
-    const cssFilePath = siteInfos[siteName].sections[sectionToHide];
+    const cssFilePath = siteInfos[siteName].sections[sectionToHide].cssFilePath;
     const sessionStorage = await browser.storage.session.get();
     const toggleStatues = sessionStorage.userPreference[siteName];
     const isApplied = toggleStatues[sectionToHide];

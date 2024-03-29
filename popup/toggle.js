@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     sections.forEach(section => {
-      togglesContainer.appendChild(createToggles({ id: section.id, text: section.id, isChecked: toggleStatuses[section.id] })); // TODO: text key
+      togglesContainer.appendChild(createToggles({ id: section.id, text: section.label, isChecked: toggleStatuses[section.id] }));
     })
   })
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <div class="w-10 h-5 rounded-full relative outline-offset-2 outline-indigo-600 outline-2 bg-gray-200">
         <span class="w-3.5 h-3.5 bg-white inline-block rounded-full absolute inset-[3px_23px_auto_3px] transition-[inset] ease-in-out"></span>
       </div>
-      ${toggleInfo.text}
+      ${"Hide " + toggleInfo.text}
     `
     return labelElem;
   }

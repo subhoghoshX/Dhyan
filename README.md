@@ -1,16 +1,8 @@
 # Dhyan - zen mode for the web
-Dhyan (meaning focus) is a browser extension that eliminates distracting elements
-from websites that can pull you into the rabbit hole, wasting hours of your precious
-time.
+Dhyan (meaning focus) is a browser extension that removes distracting elements from websites to save you time and keep you focused.
 
 ## Motivation
-I often get distracted by recommendations and targeted contents on platforms like
-YouTube and Twitter and waste a LOT of time. I experimented with using different
-tricks and clients (like [Invidious](https://invidious.io/)) and they did a great
-job. But often these third party clients are either down or black listed by the
-original platform. And they usually miss useful features as well.
-
-I built this extension to save myself from all the targeted bombardments while
+I built this extension to [save myself](https://subhoghosh.com/blog/first-extension/) from all the targeted bombardments while
 still using the original platforms. Give it a try, I'm sure it'll save you hours
 as it has mine.
 

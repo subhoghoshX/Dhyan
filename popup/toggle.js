@@ -1,5 +1,3 @@
-import { getSiteName } from "../utils.js";
-
 const browser = chrome;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
   })
 
-  browser.runtime.sendMessage({ type: 'get_toggle_info', siteName: getSiteName(url) });
+  browser.runtime.sendMessage({ type: 'get_toggle_info', url });
 
   function createToggles(toggleInfo) {
     const labelElem = document.createElement("label");
@@ -49,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       browser.runtime.sendMessage({
         hide: e.target.checked,
-        siteName: getSiteName(url),
+        url,
         sectionToHide: toggleInfo.id,
         tabId,
       })

@@ -11,7 +11,7 @@
   "host_permissions": [
     "*://*.youtube.com/*",
     "*://*.google.com/",
-    "*://*.twitter.com/*",
+    "*://*.x.com/*",
     "*://discord.com/*"
   ],
   "action": {

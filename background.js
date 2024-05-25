@@ -1,14 +1,19 @@
-import * as siteInfos from "./css-to-apply.js";
-import { getSiteName, insertCSS, removeCSS } from "./utils.js";
+import siteInfos from "./css-to-apply.js";
+import { insertCSS, removeCSS } from "./utils.js";
 
 const browser = chrome;
 
 browser.webNavigation.onCommitted.addListener(async (details) => {
   const { url, tabId } = details;
-  const siteName = getSiteName(new URL(url).host);
-  if(siteName === undefined) return;
+  const { hostname, protocol } = new URL(url);
 
-  const siteInfo = siteInfos[siteName];
+  const siteInfo = siteInfos.find((si) => {
+    const pattern = new URLPattern(si.urlPattern);
+    return pattern.test(`${protocol}//${hostname}`)
+  });
+
+  // nothning do in this site
+  if(siteInfo === undefined) return;
 
   const sessionStorage = await browser.storage.session.get();
 
@@ -22,17 +27,18 @@ browser.webNavigation.onCommitted.addListener(async (details) => {
 
     // set the default userPreference
     const userPreference = {};
-    for(const siteName in siteInfos) {
-      userPreference[siteName] = {};
-      for(const sectionName in siteInfos[siteName].sections) {
-        userPreference[siteName][sectionName] = true;
+    siteInfos.forEach(siteInfo => {
+      const { hostname } = new URL(siteInfo.urlPattern)
+      userPreference[hostname] = {};
+      for(const sectionName in siteInfo.sections) {
+        userPreference[hostname][sectionName] = true;
       }
-    }
+    })
     await browser.storage.session.set({ userPreference });
   } else {
     const cssFilePaths = [];
     for(const sectionName in siteInfo.sections) {
-      if(sessionStorage.userPreference[siteName][sectionName] === true) {
+      if(sessionStorage.userPreference[hostname][sectionName] === true) {
         const cssFilePath = siteInfo.sections[sectionName].cssFilePath;
         cssFilePaths.push(cssFilePath)
       }
@@ -43,17 +49,25 @@ browser.webNavigation.onCommitted.addListener(async (details) => {
 
 browser.runtime.onMessage.addListener(async (message) => {
   if(message.type === 'get_toggle_info') {
+    const { hostname, protocol } = new URL(message.url);
     const sessionStorage = await browser.storage.session.get();
-    const sectionsObj = siteInfos[message.siteName]?.sections;
+    const sectionsObj = siteInfos.find((si) => {
+      const pattern = new URLPattern(si.urlPattern);
+      return pattern.test(`${protocol}//${hostname}`)
+    })?.sections;
     browser.runtime.sendMessage({
-      toggleStatuses: sessionStorage.userPreference?.[message.siteName],
+      toggleStatuses: sessionStorage.userPreference?.[hostname],
       sections: sectionsObj ? Object.keys(sectionsObj).map((item) => ({id: item, label: sectionsObj[item].label})) : [],
     });
   } else {
-    const { hide, siteName, sectionToHide, tabId } = message;
-    const cssFilePath = siteInfos[siteName].sections[sectionToHide].cssFilePath;
+    const { hide, url, sectionToHide, tabId } = message;
+    const { hostname, protocol } = new URL(url);
+    const cssFilePath = siteInfos.find((si) => {
+      const pattern = new URLPattern(si.urlPattern);
+      return pattern.test(`${protocol}//${hostname}`)
+    }).sections[sectionToHide].cssFilePath;
     const sessionStorage = await browser.storage.session.get();
-    const toggleStatues = sessionStorage.userPreference[siteName];
+    const toggleStatues = sessionStorage.userPreference[hostname];
     const isApplied = toggleStatues[sectionToHide];
 
     if (isApplied === false & hide === true) {
@@ -61,7 +75,7 @@ browser.runtime.onMessage.addListener(async (message) => {
       await browser.storage.session.set({
         userPreference: {
           ...sessionStorage.userPreference,
-          [siteName]: {...toggleStatues, [sectionToHide]: true}
+          [hostname]: {...toggleStatues, [sectionToHide]: true}
         }
       });
     } else if (hide === false) {
@@ -69,7 +83,7 @@ browser.runtime.onMessage.addListener(async (message) => {
       await browser.storage.session.set({
         userPreference: {
           ...sessionStorage.userPreference,
-          [siteName]: {...toggleStatues, [sectionToHide]: false}
+          [hostname]: {...toggleStatues, [sectionToHide]: false}
         }
       });
     }

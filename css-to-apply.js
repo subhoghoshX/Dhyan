@@ -1,5 +1,5 @@
 export const youtube = {
-  matches: ["*://*.youtube.com/*"],
+  urlPattern: "https://www.youtube.com/*",
   sections: {
     homePage: {
       label: "home feed",
@@ -21,7 +21,7 @@ export const youtube = {
 }
 
 export const twitter = {
-  matches: ["*://*.twitter.com/*"],
+  urlPattern: "https://x.com/*",
   sections: {
     trending: {
       label: "trending",
@@ -31,7 +31,7 @@ export const twitter = {
 }
 
 export const discord = {
-  matches: ["*://discord.com/*"],
+  urlPattern: "https://discord.com/*",
   sections: {
     activity: {
       label: "activity buttons",
@@ -41,10 +41,12 @@ export const discord = {
 }
 
 export const google = {
-  matches: ["*://*.google.com/"],
+  urlPattern: "https://www.google.com/",
   sections: {
     searchSuggestion: {
       label: "search suggestions",
       cssFilePath: 'css/google/trending-search.css'},
   }
 }
+
+export default [youtube, twitter, discord, google]

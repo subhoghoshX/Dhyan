@@ -1,3 +1,7 @@
 button[aria-label="Start an Activity"] {
   display: none !important;
 }
+
+div:has(>div>svg>foreignObject>div>button[aria-label="Start an Activity"]) {
+  display: none !important;
+}

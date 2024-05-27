@@ -1,18 +1,22 @@
 # Dhyan - zen mode for the web
-Dhyan (meaning focus) is a browser extension that removes distracting elements from websites to save you time and keep you focused.
+Dhyan (focus) is a browser extension that removes distracting elements from websites to save you time and keep you focused.
+
+![image](https://github.com/subhoghoshX/Dhyan/assets/108616679/29b9c33e-07cc-4e5f-9bbc-185cabd8f8c0)
+
 
 ## Motivation
-I built this extension to [save myself](https://subhoghosh.com/blog/first-extension/) from all the targeted bombardments while
-still using the original platforms. Give it a try, I'm sure it'll save you hours
-as it has mine.
+I [built this](https://subhoghosh.com/blog/first-extension/) extension to save myself from all the targeted bombardments while
+still using the original platforms. Give it a try, I'm sure it'll save you hours as it has mine.
 
 ## Usage
-The extension is not hosted on any web stores yet (e.g. [Chrome Web Store](https://chromewebstore.google.com/))
-because I need to pay to host. But if enough people are interested I can do it.
+The extension is not hosted on [Chrome Web Store](https://chromewebstore.google.com/) yet, if enough people are interested I'll do it.
+
+> [!NOTE]
+> This extension will not work on firefox as it uses the [URL Pattern API](https://developer.mozilla.org/en-US/docs/Web/API/URL_Pattern_API). If you want to make it work, contributions are welcome.
 
 Here's how to install it manually:
 
-1. Clone the repo
+1. Clone the repo (or [download](https://github.com/subhoghoshX/Dhyan/archive/refs/heads/main.zip) it and extract locally)
 ```
 git clone https://github.com/subhoghoshX/Dhyan.git
 ```

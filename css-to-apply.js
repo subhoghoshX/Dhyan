@@ -27,6 +27,10 @@ export const twitter = {
       label: "trending",
       cssFilePath: 'css/twitter/trending.css'
     },
+    people: {
+      label: "people",
+      cssFilePath: 'css/twitter/people.css'
+    }
   }
 }
 
